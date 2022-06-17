@@ -1,6 +1,9 @@
 <?php
 
+use App\Services\ImageGeneration;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use StounhandJ\YandexMusicApi\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $client = new Client("AQAAAAAFSs5rMAG1XnKLIFYVMFV4ibf1kw3FqA0");
+    $queue = $client->queuesList()[0];
+    $track = $queue->getTracks()[$queue->getCurrentIndex()];
+    return Storage::response(ImageGeneration::generate($track));
 });
