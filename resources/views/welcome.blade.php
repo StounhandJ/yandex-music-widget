@@ -87,7 +87,7 @@
                         <div class="form-group"><label class="form-label" for="formBasicPassword">Введите пароль</label><input
                                 name="password" placeholder="Введите пароль" type="password" id="formBasicPassword"
                                 class="form-control"></div>
-                        <input type='button' id="Save" class="btn btn-primary btn-block" value="Войти"/>
+                        <input type='button' id="Save" class="btn btn-primary btn-block" value="Добавить"/>
                         <input type='button' id="Delete" class="btn btn-danger btn-block" value="Удалить"/>
                     <h5 id="Error" style="color: red"></h5>
                     <h5 id="Success" style="color: green"></h5>
