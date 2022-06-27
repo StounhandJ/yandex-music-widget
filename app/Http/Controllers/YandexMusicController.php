@@ -55,19 +55,35 @@ class YandexMusicController extends Controller
 
     public function view(Request $request)
     {
+        #Get user by login
         if (!$request->exists("uid")) {
             return response("Bad Request", 400);
         }
-
         $user = User::query()->where("login", $request->query("uid"))->firstOrNew();
-
         if (!$user->exists) {
             return response("Not Found", 404);
         }
-        $client = new Client($user->token);
-        $queue = $client->queuesList()[0];
-        $track = $queue->getTracks()[$queue->getCurrentIndex()];
 
-        return response(Storage::get(ImageGeneration::generate($track)))->header('Content-Type', 'image/png');
+        $trackImg = $user->last_track;
+        #------
+
+        $client = new Client($user->token);
+        $queues = $client->queuesList();
+
+        if (count($queues) != 0 && count($queues[0]->getTracks()) != 0) {
+            $queue = $queues[0];
+
+            $track = $queue->getTracks()[$queue->getCurrentIndex()];
+            $trackImg = ImageGeneration::generate($track);
+
+            if ($trackImg != $user->last_track) {
+                $user->last_track = $trackImg;
+                $user->save();
+            }
+        }
+
+        return is_null($trackImg)?
+            response("Not Found", 404) :
+            response(Storage::get($trackImg))->header('Content-Type', 'image/png');
     }
 }
