@@ -22,4 +22,6 @@ Route::get('/', function () {
 });
 
 Route::post('/save', [YandexMusicController::class, "save"])->name("save");
-Route::get('/view', [YandexMusicController::class, "view"])->name("view");
+Route::get('/view', [YandexMusicController::class, "view"])
+    ->middleware("cache.page:10")
+    ->name("view");

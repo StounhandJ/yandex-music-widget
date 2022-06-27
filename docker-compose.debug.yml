@@ -13,6 +13,8 @@ services:
       - DB_PASSWORD=root
       - DB_DATABASE=veltrix
       - PRODUCT=False
+      - MEMCACHED_HOST=memcached_db
+      - MEMCACHED_PORT=11211
     volumes:
       - ./public:/var/www/public
       - ./app:/var/www/app
@@ -56,3 +58,10 @@ services:
       - ./docker/nginx/nginx.debug.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - site
+
+  memcached_db:
+    image: memcached:latest
+    restart: always
+    command:
+      - '--memory-limit=500'
+    container_name: memcached_db

@@ -17,6 +17,8 @@ class ImageGeneration
             $track->update();
         }
 
+        Storage::makeDirectory(static::getDirectory());
+
         if (Storage::exists(static::getPathFile($track))) {
             return static::getPathFile($track);
         }
@@ -43,12 +45,17 @@ class ImageGeneration
 
     private static function getPathFile(Track $track): string
     {
-        return "tracks/" . static::getNameFile($track);
+        return static::getDirectory() . static::getNameFile($track);
     }
 
     private static function getFullPathFile(Track $track): string
     {
         return Storage::path(static::getPathFile($track));
+    }
+
+    private static function getDirectory(): string
+    {
+        return "tracks/";
     }
 
     private static function getImagickDraw(int $fonSize, string $fontColor = "white"): ImagickDraw
