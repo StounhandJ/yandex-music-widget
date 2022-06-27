@@ -14,7 +14,6 @@ services:
       - DB_DATABASE=veltrix
       - PRODUCT=False
     volumes:
-      - .env:/var/www/.env
       - ./public:/var/www/public
       - ./app:/var/www/app
       - ./config:/var/www/config
