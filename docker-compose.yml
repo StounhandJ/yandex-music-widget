@@ -16,6 +16,8 @@ services:
       - DB_PASSWORD=kindegraten_root_pg
       - DB_DATABASE=kindegraten
       - PRODUCT=True
+      - MEMCACHED_HOST=memcached_db
+      - MEMCACHED_PORT=11211
     volumes:
       - ./storage/app:/var/www/storage/app
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
@@ -82,3 +84,10 @@ services:
           - ./docker/certbot/cloudflare.ini:/opt/cerbot/cloudflare.ini
           - ./docker/certbot/conf:/etc/letsencrypt
           - ./docker/certbot/www:/var/www/certbot
+
+  memcached_db:
+    image: memcached:latest
+    restart: always
+    command:
+      - '--memory-limit=500'
+    container_name: memcached_db
